@@ -380,8 +380,12 @@
 
 		if (!$playerAndroidLockOrientation) return;
 
-		if (isFullScreen && videoFormats[0].resolution) {
-			const widthHeight = videoFormats[0].resolution.split('x');
+		// Invidious gives "1920x1080" in `size` and "1080p" in `resolution`,
+		// the YouTube.js backend gives "1920x1080" in `resolution`.
+		const dimensions = videoFormats[0]?.size ?? videoFormats[0]?.resolution;
+
+		if (isFullScreen && dimensions) {
+			const widthHeight = dimensions.split('x');
 
 			if (widthHeight.length !== 2) return;
 
